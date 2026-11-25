@@ -580,7 +580,7 @@ async function fetchModel(id){
 }
 for (const id of [heroId])
   loadTasks.push(fetchModel(id).then(g => { PROTO[id] = g; bump(); }));
-for (const id of ['A1','A5','A4','F1','F4','H3','E1a','E1b','E2','E3','E4','E5','H1','H2','H5','Ga','Gb','A3','F2','F5','F6','F7','H4','B1','F3','B2','B5','B3','B4','C1','C2','C3','C4','C5','C6','A2','A6']) loadTasks.push(fetchModel('koy/' + id).then(g => { PROTO['koy/' + id] = g; }).catch(() => {}).finally(bump));
+for (const id of ['A1','A5','A4','F1','F4','H3','E1a','E1b','E2','E3','E4','E5','H1','H2','H5','Ga','Gb','A3','F2','F5','F6','F7','H4','B1','F3','B2','B5','B3','B4','C1','C2','C3','C4','C5','C6','D1','D2','D3','D4','D5','D6','A2','A6']) loadTasks.push(fetchModel('koy/' + id).then(g => { PROTO['koy/' + id] = g; }).catch(() => {}).finally(bump));
 for (const id of ['item_kristal','item_sandik1','item_sandik2']) loadTasks.push(fetchModel(id).then(g => { PROTO[id] = g; bump(); }));
 
 /* =================== DÜNYA =================== */
@@ -623,7 +623,7 @@ const KALE = [null,
   { name:'AHŞAP KALE' },
   { name:'TAŞ KALE', cost:{ odun:40, tas:60 }, need:'B1', swap:{ A1:['B1'], A5:['B5'], A2:['B2'], A4:['B4','F3'], A3:['B3','-'] }, hs:{ B1:11, B5:9, B4:11, F3:10 } },
   { name:'DEMİR KALE', cost:{ tas:60, demir:50 }, need:'C1', swap:{ A1:['C1'], A5:['C5'], A2:['C2'], A4:['C4'], A3:['C3'] }, hs:{ C1:12.5, C5:10, C4:12, C2:1 } },
-  { name:'SİYAH MERMER KALE', cost:{ demir:60, mermer:60 }, need:'D1', swap:{} } ];
+  { name:'SİYAH MERMER KALE', cost:{ demir:60, mermer:60 }, need:'D1', swap:{ A1:['D1'], A5:['D5'], A2:['D2'], A4:['D4'], A3:['D3'] }, hs:{ D1:14, D5:10.5, D4:13 } } ];
 const RES_ICON = { odun:'🪵', tas:'🪨', demir:'⛏', mermer:'◆' };
 function lvl(){ return Math.max(1, Math.min(KALE.length - 1, KOY.castle || 1)); }
 function kid(id){ let k = id; for (let l = 2; l <= lvl(); l++){ const opts = KALE[l].swap && KALE[l].swap[id]; if (!opts) continue;
@@ -694,7 +694,8 @@ function buildExtras(){ for (const e of EXTRAS){ const gl = PROTO[e.id]; if (!gl
 function buildCorners(){ const ck = kid('A3'), ca = ck && PROTO['koy/' + ck], tw = PROTO['koy/F2'];
   if (ca){ const F = WALL.front, B = WALL.back, W = WALL.side;
     for (const [dx, dz, ry] of [[-1,1,0],[1,1,PI/2],[1,-1,PI],[-1,-1,-PI/2]]){ const cx = dx * W, cz = dz > 0 ? F : B;
-      if (ck !== 'A3') placeModel({ p:[cx, 0, cz], h:ck === 'C3' ? 6.4 : 5.4, ry:dz > 0 ? 0 : PI }, ca); // taş burç: köşeye ortalı, açık yüzü içe
+      if (ck === 'D3') placeModel({ p:[cx, 0, cz], h:7, ry:PI/4 }, ca); // kare burç 45° döndürülmüş gelmiş
+      else if (ck !== 'A3') placeModel({ p:[cx, 0, cz], h:ck === 'C3' ? 6.4 : 5.4, ry:dz > 0 ? 0 : PI }, ca); // taş burç: köşeye ortalı, açık yüzü içe
       else placeModel({ p:[cx - dx * 2.1, 0, cz - dz * 2.1], h:4.5, ry }, ca); } }
   if (tw) for (const x of [-17, 17]){ placeModel({ p:[x, 0, 9.5], h:8.5, ry:x < 0 ? PI*.75 : -PI*.75 }, tw); colliders.push({ x, z:9.5, r:1.6 }); } }
 // DUVAR MEŞALELERİ (H1): model arkası (-z) duvara bakar; alev ucu öne (+z) taşar
@@ -883,7 +884,7 @@ function buildWalls(){
   let gw = 8, gh = WALL.h * 1.6; if (gp && gp.model){ const bb = new THREE.Box3().setFromObject(gp.model); gw = bb.max.x - bb.min.x; gh = bb.max.y - bb.min.y; }
   const half = gw / 2 - .3;
   // sur parçaları (A2): gövde X ekseninde
-  const wk = kid('A2'), wg = PROTO['koy/' + wk], stoneW = wk !== 'A2', WH = wk === 'C2' ? WALL.h * 1.4 : stoneW ? WALL.h * 1.25 : WALL.h;
+  const wk = kid('A2'), wg = PROTO['koy/' + wk], stoneW = wk !== 'A2', WH = wk === 'D2' ? WALL.h * 1.55 : wk === 'C2' ? WALL.h * 1.4 : stoneW ? WALL.h * 1.25 : WALL.h;
   let unitL = WALL.h * 2.2;
   if (wg && stoneW){ const ps = instFromModel(wg), b = new THREE.Box3(); for (const pt of ps){ pt.g.computeBoundingBox(); b.union(pt.g.boundingBox); } unitL = WH * (b.max.x - b.min.x) * .96; }
   const segs = [];
