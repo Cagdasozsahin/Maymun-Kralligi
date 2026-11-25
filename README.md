@@ -9,7 +9,7 @@ Bir kahraman seç, canavar sürülerini yar, beş bölüm sonu kralını devir v
 
 Telefonda (dikey ve yatay) ve bilgisayarda doğrudan tarayıcıda oynanır, kurulum gerektirmez.
 
-▶️ **Oyna:** `https://cagdasozsahin.github.io/<depo-adı>/`
+▶️ **[OYNA → cagdasozsahin.github.io/Maymun-Kralligi](https://cagdasozsahin.github.io/Maymun-Kralligi/)**
 
 </div>
 
@@ -20,8 +20,8 @@ Telefonda (dikey ve yatay) ve bilgisayarda doğrudan tarayıcıda oynanır, kuru
 | Telefon | Bilgisayar | Ne yapar |
 |---|---|---|
 | Sol alttaki joystick | `W A S D` | Hareket |
-| **SALDIR** | `J` | Saldırı (art arda basınca 3'lü kombo) |
-| **YUVARLAN** | `K` | Saldırıdan kaçmak için yuvarlanma |
+| **SALDIR** | Sol tık / `J` | Saldırı (art arda basınca 3'lü kombo) |
+| **YUVARLAN** | Sağ tık / `K` | Saldırıdan kaçmak için yuvarlanma |
 | **ZIPLA** | `Space` | Zıplama |
 | Ekranı sürükle | Fareyle sürükle | Kamerayı çevir |
 | Çanta simgesi | `I` | Envanter (kristaller, meyveler, sandıklar) |

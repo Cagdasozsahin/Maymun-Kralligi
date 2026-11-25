@@ -1603,7 +1603,10 @@ $('#joyZone').addEventListener('pointermove', e=>{ if (e.pointerId!==joyId) retu
 const joyEnd = e=>{ if (e.pointerId!==joyId) return; joyId=null; input.x=input.y=0; input.run=false; knob.style.transform=''; joy.classList.remove('on','running'); joyRest(); };
 $('#joyZone').addEventListener('pointerup', joyEnd); $('#joyZone').addEventListener('pointercancel', joyEnd);
 let camYaw = 0, camPitch = .36, camDist = 4.2, camId = null, cx0=0, cy0=0, lastDrag = -9;
-canvas.addEventListener('pointerdown', e=>{ camId=e.pointerId; cx0=e.clientX; cy0=e.clientY; canvas.setPointerCapture(e.pointerId); });
+// Fare: sol tık saldırı, sağ tık yuvarlanma (yalnızca fare; dokunmatik etkilenmez)
+canvas.addEventListener('pointerdown', e=>{ if (e.pointerType !== 'mouse' || paused) return; if (e.button === 0) doAttack(); else if (e.button === 2){ e.preventDefault(); doRoll(); } });
+canvas.addEventListener('contextmenu', e => e.preventDefault());
+canvas.addEventListener('pointerdown', e=>{ if (e.pointerType === 'mouse' && e.button === 2) return; camId=e.pointerId; cx0=e.clientX; cy0=e.clientY; canvas.setPointerCapture(e.pointerId); });
 canvas.addEventListener('pointermove', e=>{ if (e.pointerId!==camId) return; camYaw -= (e.clientX-cx0)*.006; camPitch = THREE.MathUtils.clamp(camPitch+(e.clientY-cy0)*.004,.08,1.0); cx0=e.clientX; cy0=e.clientY; lastDrag = performance.now()/1000; });
 canvas.addEventListener('pointerup', ()=>camId=null); canvas.addEventListener('pointercancel', ()=>camId=null);
 function bindBtn(id, fn){ const b=$(id); b.addEventListener('pointerdown', e=>{ e.preventDefault(); b.classList.add('press'); fn(); }); ['pointerup','pointerleave','pointercancel'].forEach(t=>b.addEventListener(t,()=>b.classList.remove('press'))); }
