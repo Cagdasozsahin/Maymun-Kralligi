@@ -2,11 +2,13 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>MAYMUN KRALLIĞI</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@600;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
+*{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+
 :root{
   --gold:#f2c14e; --gold2:#ffdf8a; --gold-d:#9a6b16;
   --ink:#07090a; --panel:rgba(12,16,14,.72); --line:rgba(242,193,78,.28);
@@ -297,6 +299,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 </div>
 <div class="toast" id="toast"></div>
 
+<script>document.addEventListener("dblclick",e=>e.preventDefault(),{passive:false});["gesturestart","gesturechange"].forEach(v=>document.addEventListener(v,e=>e.preventDefault(),{passive:false}));</script>
 <script id="mks">
 /* =================== SES (MKS) =================== */
 // Yalnızca ses/ klasöründeki dosyalar çalınır (önce .mp3, yoksa .json içinde base64).

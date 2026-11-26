@@ -75,6 +75,10 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 .stats b{display:block;font-family:'Cinzel';font-size:24px;color:#fff;letter-spacing:.05em}
 #fade{position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;transition:opacity .7s;z-index:9}
 
+/* mobilde çift dokunuş yakınlaştırmasını kapat */
+*{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+html,body,canvas,#c,#joyZone,#hud,button,.qb{touch-action:none!important}
+html,body{overscroll-behavior:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 /* bildirimler: ekran ortası yerine sol üstte, HUD'un altında */
 .toast{left:calc(12px + env(safe-area-inset-left))!important;right:auto!important;top:calc(104px + env(safe-area-inset-top))!important;transform:translateX(-14px)!important;max-width:min(46vw,340px);padding:7px 12px!important;font-size:12px!important;letter-spacing:.05em!important;line-height:1.35;text-align:left!important;border-left:3px solid var(--gold)!important;border-radius:4px}
 .toast.on{transform:translateX(0)!important}
@@ -1592,6 +1596,11 @@ let camYaw = 0, camPitch = .36, camDist = 4.2, camId = null, cx0=0, cy0=0, lastD
 // Fare: sol tık saldırı, sağ tık yuvarlanma (yalnızca fare; dokunmatik etkilenmez)
 canvas.addEventListener('pointerdown', e=>{ if (e.pointerType !== 'mouse' || paused) return; if (e.button === 0) doAttack(); else if (e.button === 2){ e.preventDefault(); doRoll(); } });
 canvas.addEventListener('contextmenu', e => e.preventDefault());
+// çift dokunuş / iki parmak yakınlaştırmasını engelle (iOS + Android)
+{ let lastT = 0; document.addEventListener('touchend', e => { const n = performance.now(); if (n - lastT < 350 && !e.target.closest('input,textarea')) e.preventDefault(); lastT = n; }, { passive:false });
+  document.addEventListener('dblclick', e => e.preventDefault(), { passive:false });
+  ['gesturestart','gesturechange'].forEach(ev => document.addEventListener(ev, e => e.preventDefault(), { passive:false }));
+  document.addEventListener('touchmove', e => { if (e.touches.length > 1 || (e.scale && e.scale !== 1)) e.preventDefault(); }, { passive:false }); }
 canvas.addEventListener('pointerdown', e=>{ if (e.pointerType === 'mouse' && e.button === 2) return; camId=e.pointerId; cx0=e.clientX; cy0=e.clientY; canvas.setPointerCapture(e.pointerId); });
 canvas.addEventListener('pointermove', e=>{ if (e.pointerId!==camId) return; camYaw -= (e.clientX-cx0)*.006; camPitch = THREE.MathUtils.clamp(camPitch+(e.clientY-cy0)*.004,.08,1.0); cx0=e.clientX; cy0=e.clientY; lastDrag = performance.now()/1000; });
 canvas.addEventListener('pointerup', ()=>camId=null); canvas.addEventListener('pointercancel', ()=>camId=null);
